@@ -13,8 +13,8 @@ jobs:
     # provide environment variables for username and password
     env:
       MONGODB_CLUSTER_ADDRESS: cluster0.zq0lm1o.mongodb.net
-      MONGODB_USERNAME: nokafor
-      MONGODB_PASSWORD: 6QpL4X96
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       # This value can be what ever you want
       PORT: 8080
     environment: testing
