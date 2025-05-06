@@ -20,7 +20,6 @@ jobs:
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }} # 6QpL4X96
       # This value can be what ever you want
       PORT: 8080
-    environment: testing
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
