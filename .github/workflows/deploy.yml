@@ -1,0 +1,49 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+      - dev
+# Addind environment variables
+env:
+  # define database name for environment variable
+  MONGODB_DB_NAME: gha-demo
+jobs:
+  test:
+    # provide environment variables for username and password
+    env:
+      MONGODB_CLUSTER_ADDRESS: cluster0.zq0lm1o.mongodb.net
+      MONGODB_USERNAME: nokafor
+      MONGODB_PASSWORD: 6QpL4X96
+      # This value can be what ever you want
+      PORT: 8080
+    environment: testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-deps-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run server
+        # Insert the port with an environment variable
+        run: npm start & npx wait-on http://127.0.0.1:$PORT
+      - name: Run tests
+        run: npm test
+      - name: Output information
+        # another method of inputing the environment variable
+        run: echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: |        
+          # This value would not be available because it is job specific variable
+          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
+          # This environment variable would be available
+          echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
