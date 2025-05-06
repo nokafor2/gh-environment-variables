@@ -10,11 +10,14 @@ env:
   MONGODB_DB_NAME: gha-demo
 jobs:
   test:
+    # environment are referenced within the job
+    environment: testing
+    # The secrets used here, would be the defined secrets in the environment
     # provide environment variables for username and password
     env:
       MONGODB_CLUSTER_ADDRESS: cluster0.zq0lm1o.mongodb.net
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }} # nokafor
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }} # 6QpL4X96
       # This value can be what ever you want
       PORT: 8080
     environment: testing
